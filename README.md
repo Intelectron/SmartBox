@@ -1,5 +1,5 @@
 # SmartBox
- This is a pre-alpha prototype made on prefboard so that you can make it easily at home with few components.
+ SmartBox is a arduino uno compatible shield for building your home automation projects in less than 10 minutes with the help of [this](https://github.com/Intelectron/SmartBox/blob/master/SmartBox.apk) app. This pre-alpha prototype is made on prefboard so that you can make it easily at home with few components.
 ## List Of Components
   * Arduino Uno x 1
   * HC-05 Bluetooth Module x 1
