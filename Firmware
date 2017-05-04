@@ -1,0 +1,111 @@
+//Created by Intelectron India, 2017
+// FREE TO EDIT AND MODIFY
+#include <SoftwareSerial.h>
+
+#define FAN   1
+#define LIGHT  2
+
+int fanPin = 11;
+int lightPin = 10;
+
+int FANstate = 0;
+int LIGHTstate = 0;
+
+SoftwareSerial BT(9,8);
+
+//comment the following line to disable debugging mode
+#define __DEBUG_
+
+String codes[] = {"", "FAN", "LIGHT"};
+void setup() {
+  
+#ifdef __DEBUG_
+  Serial.begin(115200);
+#endif
+
+  BT.begin(115200);
+#ifdef __DEBUG_
+  Serial.println("DEBUG mode ON");
+#endif
+  pinMode(fanPin, OUTPUT);
+  pinMode(lightPin, OUTPUT);
+
+}
+
+void loop() {
+  if (BT.available()) {
+    processSerial();
+  }
+}
+void processSerial() {
+  char _temp[20] = {};
+  int code = -1;
+  BT.readBytesUntil('#', _temp, 20);
+  String buffer = String(_temp);
+  //check which code was sent
+  switch (buffer[0]) {
+    case '$':
+      code = FAN;
+      break;
+    case '@':
+      code = LIGHT;
+      break;
+  }
+  buffer.remove(0, 1); //removes the identifier
+  processSerialData(buffer, code);
+#ifdef __DEBUG_
+  Serial.println(codes[code]);
+#endif
+  Serial.flush();
+}
+void processSerialData(String buffer, int code) {
+  switch (code) {
+    case FAN:
+      processFAN(buffer);
+      break;
+    case LIGHT:
+      processLIGHT(buffer);
+      break;
+  }
+}
+void processFAN(String buffer) {
+  char state = buffer[0];
+  if (state == '1') {
+    buffer.remove(0, 2);
+    FANstate = 1;
+    //TURN ON FAN
+
+#ifdef __DEBUG_
+    Serial.println("FAN turned ON");
+
+#endif
+    digitalWrite(fanPin, HIGH);
+  }
+  else if (state == '0') {
+    //turn off FAN
+    FANstate = 0;
+    digitalWrite(fanPin, LOW);
+#ifdef __DEBUG_
+    Serial.println("FAN turned OFF");
+#endif
+  }
+}
+void processLIGHT(String buffer) {
+  char state = buffer[0];
+  if (state == '1') {
+    //turn on LIGHT
+    LIGHTstate = 1;
+#ifdef __DEBUG_
+    Serial.println("LIGHT turned ON");
+#endif
+    digitalWrite(lightPin, HIGH);
+  }
+  else if (state == '0') {
+    //turn off LIGHT
+    LIGHTstate = 0;
+#ifdef __DEBUG_
+    Serial.println("LIGHT turned OFF");
+#endif
+    digitalWrite(lightPin, LOW);
+  }
+}
