@@ -12,7 +12,7 @@
   * Bar strips for making the shield
   * Prefboard
   
-## Images
+## Prototype Images
 * Shield plugged in...
  
  ![alt text](https://github.com/Intelectron/SmartBox/blob/master/SmartBox_1.jpg)
@@ -23,3 +23,6 @@
  
  For HD images [click here](https://github.com/Intelectron/SmartBox/tree/master/HD%20Images)
  
+## Android App Screenshot 
+
+![alt text](https://github.com/Intelectron/SmartBox/blob/master/SmartBox_App.png)
